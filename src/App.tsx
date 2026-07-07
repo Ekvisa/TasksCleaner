@@ -57,18 +57,28 @@ export default function App() {
   }
 
   function cleanTask(node: HTMLElement) {
+    node
+      .querySelector('[class*="ExerciseStyles_title"]')
+      ?.setAttribute("style", "font-weight: bold;");
+
     //Удаляем ненужные блоки:
     node.querySelector('[class*="articul"]')?.remove();
     node.querySelector('[class*="evaluate"]')?.remove();
     node.querySelector('[class*="SupportBlock"]')?.remove();
 
-    //Удаляем источники-приписки в скобках:
     const paragraphs = node.querySelectorAll("p");
-
     paragraphs.forEach((p) => {
       const text = (p.textContent ?? "").trim();
-
+      //Удаляем источники-приписки в скобках:
       if (text.startsWith("(")) {
+        p.remove();
+      }
+      //Удаляем пустые <p>, предварительно добавив класс предыдущему <p>:
+      if (text === "") {
+        const previous = p.previousElementSibling;
+        if (previous instanceof HTMLParagraphElement) {
+          previous.classList.add("taskDescription");
+        }
         p.remove();
       }
     });
