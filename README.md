@@ -1,75 +1,67 @@
-# React + TypeScript + Vite
+# Tasks Cleaner
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+_Made with ❤️ for the wonderful teacher and my beloved friend._
 
-Currently, two official plugins are available:
+Live: https://ekvisa.github.io/TasksCleaner/
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+A small client-side web application for cleaning up HTML exercises copied from a browser and preparing them for insertion into Microsoft Word.
 
-## React Compiler
+## Why?
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+This project started from a real problem.
 
-## Expanding the ESLint configuration
+A close friend of mine is a Russian language teacher. She often prepared worksheets by copying exercises from an educational platform into Word. Each page contained lots of extra HTML: service information, metadata, support blocks, advertisements, empty paragraphs, and other elements that had to be removed manually.
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+We decided that computers should probably do that part instead.
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+So this little tool was born.
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+## What it does
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+The application:
 
-```
+- reads text/html from the clipboard using the Clipboard API;
+- parses the HTML with DOMParser;
+- extracts exercise blocks;
+- removes unnecessary metadata and service elements;
+- removes empty paragraphs and notes;
+- preserves useful formatting (`<strong>`, `<em>`, paragraphs, lists, etc.);
+- copies the cleaned HTML back to the clipboard so it can be pasted directly into Microsoft Word.
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+Everything happens locally in your browser.
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
 
-```
+## Workflow
+
+
+Educational platform page (ex.: https://3.shkolkovo.online/catalog/11553?Page=2)  
+&nbsp; ↓ _Copy_  
+Clipboard (HTML)  
+&nbsp; ↓  
+HTML Exercise Cleaner  
+&nbsp; ↓  
+Clean HTML  
+&nbsp; ↓ _Copy_  
+Microsoft Word
+ 
+## Technologies
+
+- React
+- TypeScript
+- Vite
+- Clipboard API
+- DOMParser
+- DOM manipulation
+
+ 
+### _Note:_
+The current version is designed for the HTML structure of one particular educational platform.
+It is not a web scraper and does not download pages automatically.
+The application only processes HTML that the user has already copied into the clipboard.
+
+## Future ideas
+- Download as .docx
+- Configurable cleaning rules
+- Support multiple HTML layouts
+- Optional grouping of exercises with identical instructions
